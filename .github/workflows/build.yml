@@ -10,8 +10,12 @@ jobs:
       - uses: actions/checkout@v7
       - name: Setup uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+        with:
+          python-version: "3.13"
       - name: Setup Python
-        run: uv python install
+        run: uv python install 3.13
+      - name: Add Python 3.13 to PATH
+        run: echo "$(dirname "$(uv python find 3.13)")" >> "$GITHUB_PATH"
       - name: Install dependencies
         run: uv sync --no-build --frozen
       - name: Run tox
