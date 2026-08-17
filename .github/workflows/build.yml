@@ -1,7 +1,10 @@
 name: Run Test
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
-  on_build_actions:
+  verify_python_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -13,3 +16,12 @@ jobs:
         run: uv sync --no-build --frozen
       - name: Run tests
         run: uv run python -m unittest
+
+  sonar_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
