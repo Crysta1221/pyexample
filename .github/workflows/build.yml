@@ -1,0 +1,15 @@
+name: Run Test
+on: [push]
+jobs:
+  on_build_actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+      - name: Setup Python
+        run: uv python install
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --dev
+      - name: Run tests
+        run: uv run python -m unittest
