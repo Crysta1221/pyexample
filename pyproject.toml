@@ -2,4 +2,24 @@
 name = "pyexample"
 version = "0.1.0"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "tox>=4.60.0",
+]
+
+[tool.tox]
+env_list = ["3.13"]
+no_package = true
+
+[tool.tox.env_run_base]
+deps = [
+    "coverage",
+]
+commands = [
+    ["coverage", "run", "-m", "unittest"],
+    ["coverage", "xml"],
+]
+
+[tool.coverage.run]
+relative_files = true
+source = ["speciallecture/"]
+branch = true
