@@ -3,7 +3,9 @@ name = "pyexample"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "coverage>=7.15.4",
     "tox>=4.60.0",
+    "tox-uv>=1.36.0",
 ]
 
 [tool.tox]
@@ -11,9 +13,8 @@ env_list = ["3.13"]
 no_package = true
 
 [tool.tox.env_run_base]
-deps = [
-    "coverage",
-]
+runner = "uv-venv-lock-runner"
+uv_sync_flags = ["--frozen", "--no-build"]
 commands = [
     ["coverage", "run", "-m", "unittest"],
     ["coverage", "xml"],
@@ -21,5 +22,9 @@ commands = [
 
 [tool.coverage.run]
 relative_files = true
-source = ["pyexample/"]
+source = ["pyexample"]
+omit = ["*/tests/*", "tests/*"]
 branch = true
+
+[tool.coverage.report]
+omit = ["*/tests/*", "tests/*"]
